@@ -1,0 +1,67 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+
+# Caminho do driver do Chrome
+chrome_driver_path = r'C:\Users\cibel\Downloads\Script\chromedriver.exe'
+
+# Configurações do Chrome
+chrome_options = Options()
+chrome_options.add_argument("--start-maximized")
+chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("--force-device-scale-factor=1.0")
+
+# Inicialização do serviço e do driver do Chrome
+service = Service(chrome_driver_path)
+service.start()
+driver = webdriver.Chrome(service=service, options=chrome_options)
+
+# URL do formulário do Google
+url = 'https://docs.google.com/forms/d/e/1FAIpQLSfScZ4HFgwkTH-Lafxsy4PYCz9faydfiawUaY6ns9Gb7eUSBQ/viewform'
+
+# Número total de votos desejados
+total_de_votos = 1000
+
+# Resposta para votar
+resposta1 = "Gabriel"  # Altere conforme necessário
+resposta3 = "Próxima"
+resposta4 = "🙃"
+resposta5 = "Próxima"
+resposta6 = "Enviar"
+# Loop para submeter votos
+for _ in range(total_de_votos):
+    try:
+        driver.get(url)
+        time.sleep(2)
+        
+        # Encontrar o elemento de resposta e clicar nele
+        elemento_resposta = driver.find_element(By.XPATH, f"//*[contains(text(), '{resposta1}')]")
+        driver.execute_script("arguments[0].scrollIntoView(true);", elemento_resposta)  # Rolagem para a visualização do elemento
+        time.sleep(0.7)  # Pequeno atraso antes de clicar
+        elemento_resposta.click()
+        elemento_resposta = driver.find_element(By.XPATH, f"//*[contains(text(), '{resposta3}')]")
+        driver.execute_script("arguments[0].scrollIntoView(true);", elemento_resposta)  # Rolagem para a visualização do elemento
+        time.sleep(0.5)  # Pequeno atraso antes de clicar
+        elemento_resposta.click()
+        elemento_resposta = driver.find_element(By.XPATH, f"//*[contains(text(), '{resposta4}')]")
+        driver.execute_script("arguments[0].scrollIntoView(true);", elemento_resposta)  # Rolagem para a visualização do elemento
+        time.sleep(0.5)  # Pequeno atraso antes de clicar
+        elemento_resposta.click()
+        elemento_resposta = driver.find_element(By.XPATH, f"//*[contains(text(), '{resposta5}')]")
+        driver.execute_script("arguments[0].scrollIntoView(true);", elemento_resposta)  # Rolagem para a visualização do elemento
+        time.sleep(0.5)  # Pequeno atraso antes de clicar
+        elemento_resposta.click()
+        elemento_resposta = driver.find_element(By.XPATH, f"//*[contains(text(), '{resposta6}')]")
+        driver.execute_script("arguments[0].scrollIntoView(true);", elemento_resposta)  # Rolagem para a visualização do elemento
+        time.sleep(0.5)  # Pequeno atraso antes de clicar
+        elemento_resposta.click()
+
+
+        
+        # Encontrar e clicar no botão "Enviar" usando JavaScript para evitar alerta de "sair sem salvar alterações"
+        driver.execute_script("document.querySelector('.freebirdFormviewerViewNavigationSubmitButton').click();")
+        time.sleep(2)
+    except Exception as e:
+        print(f"Erro: {e}")
